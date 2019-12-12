@@ -19,9 +19,10 @@ export default class VariablesDecoder {
         const name = 't-beam-sf10-soilMoisture';
 
         let byteBufferPayload = this.base64ToArray(messageObject.payload_raw as string);
-        const type = (typesArray[byteBufferPayload[0]] as DefaultVariables);
+        const idSensor = Number(byteBufferPayload[0]);
+        const type = (typesArray[byteBufferPayload[1]] as DefaultVariables);
 
-        byteBufferPayload = byteBufferPayload.slice(1);
+        byteBufferPayload = byteBufferPayload.slice(2);
 
         let values: Array<any> | number = 0;
 
@@ -36,7 +37,7 @@ export default class VariablesDecoder {
         }
 
         const variable: IVariable<Array<Object> | number> = {
-            deviceId, timestamp, type, name, value: values
+            deviceId, timestamp, type, name, value: values, idSensor
         }
 
         console.log('Variable: ', variable);
