@@ -5,7 +5,8 @@ export default interface IVariable<T> {
     deviceId: string;
     value: T;
     timestamp: Date;
-    type: DefaultVariables
+    type: DefaultVariables;
+    idSensor: Number
 }
 
 export interface IAccelerationVariable extends IVariable<number> {
