@@ -1,6 +1,6 @@
 import IDeviceMessage from "./IDeviceMessage";
 import DefaultVariables, { defaultTypes } from "./DefaultVariables";
-import IVariable from "./IVariable";
+import IVariable, { IAxis } from "./IVariable";
 
 const typesArray = [
     defaultTypes.acceleration,
@@ -10,7 +10,7 @@ const typesArray = [
 ];
 
 export default class VariablesDecoder {
-    static decodeVariable(message: Buffer): IVariable<Array<Object> | number> {
+    static decodeVariable(message: Buffer): IVariable<Object> {
         const messageObject = JSON.parse(String(message)) as IDeviceMessage;
 
         console.log('MessageObject: ', messageObject);
@@ -24,7 +24,7 @@ export default class VariablesDecoder {
 
         byteBufferPayload = byteBufferPayload.slice(2);
 
-        let values: Array<any> | number = 0;
+        let values: Object = 0;
 
         if (type == "acceleration") {
             values = this.decodeAcceleration(byteBufferPayload);
@@ -36,7 +36,7 @@ export default class VariablesDecoder {
             values = this.decodeSoilMoisture(byteBufferPayload[0]);
         }
 
-        const variable: IVariable<Array<Object> | number> = {
+        const variable: IVariable<Object> = {
             deviceId, timestamp, type, name, value: values, idSensor
         }
 
@@ -44,12 +44,12 @@ export default class VariablesDecoder {
 
         return variable;
     }
-    static decodeAcceleration(byteBuffer: Buffer): Array<Object> {
+    static decodeAcceleration(byteBuffer: Buffer): Object {
         const values = this.bufferToAxisVariable(byteBuffer);
         return values;
     }
 
-    static decodeRotationRate(byteBuffer: Buffer): Array<Object> {
+    static decodeRotationRate(byteBuffer: Buffer): Object {
         const values = this.bufferToAxisVariable(byteBuffer);
         return values;
     }
@@ -70,15 +70,28 @@ export default class VariablesDecoder {
         return num;
     }
 
-    static bufferToAxisVariable(buffer: Buffer): Array<Object> {
-        const values = [];
+    static bufferToAxisVariable(buffer: Buffer): Array<IAxis> | IAxis {
+        let values: Array<IAxis> | IAxis;
 
-        for (let i = 0; i < buffer.length; i += 3) {
-            let x = this.byteToSignedInteger(buffer[i]);
-            let y = this.byteToSignedInteger(buffer[i + 1]);
-            let z = this.byteToSignedInteger(buffer[i + 2]);
+        // Single value
+        if (buffer.length == 3) {
+            console.log('Single value');
+            values = {
+                x: this.byteToSignedInteger(buffer[0]),
+                y: this.byteToSignedInteger(buffer[1]),
+                z: this.byteToSignedInteger(buffer[2])
+            }
+        }
+        // Multiple values
+        else {
+            values = [];
+            for (let i = 0; i < buffer.length; i += 3) {
+                let x = this.byteToSignedInteger(buffer[i]);
+                let y = this.byteToSignedInteger(buffer[i + 1]);
+                let z = this.byteToSignedInteger(buffer[i + 2]);
 
-            values.push({ x, y, z });
+                values.push({ x, y, z });
+            }
         }
 
         return values;

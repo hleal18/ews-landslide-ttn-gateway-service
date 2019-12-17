@@ -9,6 +9,12 @@ export default interface IVariable<T> {
     idSensor: Number
 }
 
+export interface IAxis {
+    x: Number;
+    y: Number;
+    z: Number;
+}
+
 export interface IAccelerationVariable extends IVariable<number> {
 
 }
