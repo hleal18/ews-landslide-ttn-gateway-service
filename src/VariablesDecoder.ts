@@ -6,7 +6,8 @@ const typesArray = [
     defaultTypes.acceleration,
     defaultTypes.rotationRate,
     defaultTypes.soilMoisture,
-    defaultTypes.rainfall
+    defaultTypes.rainfall,
+    defaultTypes.inclination
 ];
 
 export default class VariablesDecoder {
@@ -26,14 +27,17 @@ export default class VariablesDecoder {
 
         let values: Object = 0;
 
-        if (type == "acceleration") {
+        if (type === "acceleration") {
             values = this.decodeAcceleration(byteBufferPayload);
         }
-        else if (type == "rotationRate") {
+        else if (type === "rotationRate") {
             values = this.decodeRotationRate(byteBufferPayload);
         }
-        else if (type == "soilMoisture") {
+        else if (type === "soilMoisture") {
             values = this.decodeSoilMoisture(byteBufferPayload[0]);
+        }
+        else if (type === "inclination") {
+            values = this.decodeInclination(byteBufferPayload);
         }
 
         const variable: IVariable<Object> = {
@@ -57,6 +61,13 @@ export default class VariablesDecoder {
     static decodeSoilMoisture(byte: number): number {
         const value = this.byteToSignedInteger(byte);
         return value;
+    }
+
+    static decodeInclination(byteBuffer: Buffer): Object {
+        return {
+            x: this.byteToSignedInteger(byteBuffer[0]),
+            y: this.byteToSignedInteger(byteBuffer[1])
+        };
     }
 
     static base64ToArray(message: string): Buffer {
