@@ -2,7 +2,7 @@ import config from "./config";
 import mqtt from "mqtt";
 
 
-const topics = ['test_ttgo/devices/t-beam-sf10/up'];
+const allDevicesMessagesTopic = 'test_ttgo/devices/+/up';
 
 const options = {
     port: 1883,
@@ -20,7 +20,7 @@ mqttTtnClient.on('connect', () => {
     console.log('Successfully connected ');
 });
 
-mqttTtnClient.subscribe(topics, (err, granted) => {
+mqttTtnClient.subscribe(allDevicesMessagesTopic, (err, granted) => {
     if (err) return console.log('Not subscribed to ', err);
 
     console.log('subscribed to: ', granted);
