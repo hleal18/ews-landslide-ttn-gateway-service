@@ -74,13 +74,18 @@ export default class VariablesDecoder {
     }
 
     static decodeWaterLevel(byte: number): number {
-        const value = this.byteToSignedInteger(byte);
+        const value = this.byteToUnsignedInteger(byte);
         return value;
     }
 
     static base64ToArray(message: string): Buffer {
         const byteBuffer = Buffer.from(message, 'base64');
         return byteBuffer;
+    }
+
+    static byteToUnsignedInteger(byte: number): number {
+        const value = Number(byte);
+        return value;
     }
 
     static byteToSignedInteger(byte: number): number {
