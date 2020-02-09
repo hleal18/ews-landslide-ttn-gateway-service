@@ -6,7 +6,7 @@ const typesArray = [
     defaultTypes.acceleration,
     defaultTypes.rotationRate,
     defaultTypes.soilMoisture,
-    defaultTypes.rainfall,
+    defaultTypes.waterLevel,
     defaultTypes.inclination
 ];
 
@@ -39,6 +39,9 @@ export default class VariablesDecoder {
         else if (type === "inclination") {
             values = this.decodeInclination(byteBufferPayload);
         }
+        else if (type == "waterLevel") {
+            values = this.decodeWaterLevel(byteBufferPayload[0]);
+        }
 
         const variable: IVariable<Object> = {
             deviceId, timestamp, type, name, value: values, idSensor
@@ -68,6 +71,11 @@ export default class VariablesDecoder {
             x: this.byteToSignedInteger(byteBuffer[0]),
             y: this.byteToSignedInteger(byteBuffer[1])
         };
+    }
+
+    static decodeWaterLevel(byte: number): number {
+        const value = this.byteToSignedInteger(byte);
+        return value;
     }
 
     static base64ToArray(message: string): Buffer {

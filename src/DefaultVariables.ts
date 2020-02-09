@@ -1,9 +1,9 @@
-type DefaultVariables = 'acceleration' | 'rotationRate' | 'rainfall' | 'soilMoisture' | 'inclination';
+type DefaultVariables = 'acceleration' | 'rotationRate' | 'waterLevel' | 'soilMoisture' | 'inclination';
 
 export const defaultTypes = {
     acceleration: 'acceleration',
     rotationRate: 'rotationRate',
-    rainfall: 'rainfall',
+    waterLevel: 'waterLevel',
     soilMoisture: 'soilMoisture',
     inclination: 'inclination'
 };
