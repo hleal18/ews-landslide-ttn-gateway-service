@@ -5,7 +5,8 @@ export const defaultTypes = {
     rotationRate: 'rotationRate',
     waterLevel: 'waterLevel',
     soilMoisture: 'soilMoisture',
-    inclination: 'inclination'
+    inclination: 'inclination',
+    voltage: 'voltage'
 };
 
 export default DefaultVariables;

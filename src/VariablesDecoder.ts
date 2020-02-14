@@ -7,7 +7,8 @@ const typesArray = [
     defaultTypes.rotationRate,
     defaultTypes.soilMoisture,
     defaultTypes.waterLevel,
-    defaultTypes.inclination
+    defaultTypes.inclination,
+    defaultTypes.voltage
 ];
 
 export default class VariablesDecoder {
@@ -42,7 +43,12 @@ export default class VariablesDecoder {
         else if (type == "waterLevel") {
             values = this.decodeWaterLevel(byteBufferPayload[0]);
         }
+        else if (type == "voltage") {
+            values = this.decodeVoltage(byteBufferPayload);
+        }
 
+        
+        
         const variable: IVariable<Object> = {
             deviceId, timestamp, type, name, value: values, idSensor
         }
@@ -78,6 +84,13 @@ export default class VariablesDecoder {
         return value;
     }
 
+    static decodeVoltage(buffer: Buffer): number {
+        const value = this.bufferToFloat(buffer);
+        return value;
+    }
+
+
+
     static base64ToArray(message: string): Buffer {
         const byteBuffer = Buffer.from(message, 'base64');
         return byteBuffer;
@@ -92,6 +105,27 @@ export default class VariablesDecoder {
         let num = byte;
         if (num >> 7 == 1) num = -((num ^ 0xFF) + 1);
         return num;
+    }
+
+    static bufferToFloat(buffer: Buffer): number {
+        console.log("Initiating buffer to float conversion");
+        // Test by multiplying by 100
+        return ((buffer[0] << 8) + buffer[1]) / 100;
+        // DataView works with Javascript ArrayBuffer and not
+        // Nodejs buffers, so conversion is needed as follows
+        //        const convertedBuffer = buffer.buffer.slice(buffer.byteOffset + buffer.byteLength);
+        //const view = new DataView(convertedBuffer);
+        //const newBuffer = new ArrayBuffer(4);
+
+        //convertedBuffer.forEach((byte, ind) => view.setUint8(byte, ind));
+
+
+
+        //const num = view.getFloat32(0);
+
+        //console.log(num);
+
+        //return num;
     }
 
     static bufferToAxisVariable(buffer: Buffer): Array<IAxis> | IAxis {
