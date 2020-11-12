@@ -19,6 +19,7 @@ export default class VariablesDecoder {
         const deviceId = messageObject.dev_id;
         const timestamp = messageObject.metadata.time;
         const name = 't-beam-sf10-soilMoisture';
+	const counter = messageObject.counter;
 
         let byteBufferPayload = this.base64ToArray(messageObject.payload_raw as string);
         const idSensor = Number(byteBufferPayload[0]);
@@ -50,7 +51,7 @@ export default class VariablesDecoder {
         
         
         const variable: IVariable<Object> = {
-            deviceId, timestamp, type, name, value: values, idSensor
+            deviceId, timestamp, type, name, counter, value: values, idSensor
         }
 
         console.log('Variable: ', variable);

@@ -2,7 +2,7 @@ import config from "./config";
 import mqtt from "mqtt";
 
 
-const allDevicesMessagesTopic = 'test_ttgo/devices/+/up';
+const allDevicesMessagesTopic = '+/devices/+/up';
 
 const options = {
     port: 1883,

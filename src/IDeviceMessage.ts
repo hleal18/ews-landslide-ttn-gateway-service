@@ -3,7 +3,8 @@ interface IDeviceMessage {
     metadata: {
         time: Date
     },
-    payload_raw: string
+    payload_raw: string,
+    counter: number,
 };
 
 export default IDeviceMessage;

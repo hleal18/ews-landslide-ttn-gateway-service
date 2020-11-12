@@ -6,7 +6,8 @@ export default interface IVariable<T> {
     value: T;
     timestamp: Date;
     type: DefaultVariables;
-    idSensor: Number
+    idSensor: Number;
+    counter: Number;
 }
 
 export interface IAxis {
