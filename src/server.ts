@@ -9,7 +9,7 @@ import VariablesDecoder from "./VariablesDecoder"
 mqttTtnClient.on('message', (topic, payload) => {
     console.log('Sending payload to server: ');
     const variable: IVariable<Object> = VariablesDecoder.decodeVariable(payload);
-    mqttEwsClient.publish('hola', JSON.stringify(variable));
+    mqttEwsClient.publish('ews-landslide-test', JSON.stringify(variable), { qos: 2 });
 });
 
 

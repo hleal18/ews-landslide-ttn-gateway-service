@@ -4,10 +4,10 @@ import mqtt from "mqtt";
 
 const allDevicesMessagesTopic = '+/devices/+/up';
 
-const options = {
+const options: mqtt.IClientOptions = {
     port: 1883,
     username: config.mqtt.ttn.application_name,
-    password: config.mqtt.ttn.application_key
+    password: config.mqtt.ttn.application_key,
 }
 
 const mqttTtnClient = mqtt.connect('mqtt://us-west.thethings.network', options);
@@ -20,7 +20,7 @@ mqttTtnClient.on('connect', () => {
     console.log('Successfully connected ');
 });
 
-mqttTtnClient.subscribe(allDevicesMessagesTopic, (err, granted) => {
+mqttTtnClient.subscribe(allDevicesMessagesTopic, { qos: 2 }, (err, granted) => {
     if (err) return console.log('Not subscribed to ', err);
 
     console.log('subscribed to: ', granted);

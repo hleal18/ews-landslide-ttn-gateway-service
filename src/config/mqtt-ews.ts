@@ -2,7 +2,11 @@ import mqtt from "mqtt";
 
 const topics = [];
 
-const mqttEwsClient = mqtt.connect('mqtt://test.mosquitto.org', {
+// const mqttEwsClient = mqtt.connect('mqtt://test.mosquitto.org', {
+//     port: 1883
+// });
+
+const mqttEwsClient = mqtt.connect('mqtt://semard.com.co', {
     port: 1883
 });
 
