@@ -16,7 +16,7 @@ export default class VariablesDecoder {
   static decodeVariable(message: Buffer): IVariable<Object> {
     const messageObject = JSON.parse(String(message)) as IDeviceMessage;
 
-    console.log("MessageObject: ", messageObject);
+    // console.log("MessageObject: ", messageObject);
     const deviceId = messageObject.dev_id;
     const timestamp = messageObject.metadata.time;
     const name = "t-beam-sf10-soilMoisture";
