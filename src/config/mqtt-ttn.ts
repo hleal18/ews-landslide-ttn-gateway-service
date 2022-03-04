@@ -2,7 +2,7 @@ import config from "./config";
 import mqtt from "mqtt";
 
 
-const allDevicesMessagesTopic = '+/devices/+/up';
+const allDevicesMessagesTopic = 'v3/+/devices/+/up';
 
 const options: mqtt.IClientOptions = {
     port: 1883,
@@ -10,18 +10,18 @@ const options: mqtt.IClientOptions = {
     password: config.mqtt.ttn.application_key,
 }
 
-const mqttTtnClient = mqtt.connect('mqtt://us-west.thethings.network', options);
+const mqttTtnClient = mqtt.connect('mqtt://nam1.cloud.thethings.network', options);
 
 mqttTtnClient.on('error', (err) => {
-    console.log('There was an error: ', err);
+    console.log('There was an error on mqttTTnClient: ', err);
 })
 
 mqttTtnClient.on('connect', () => {
-    console.log('Successfully connected ');
+    console.log('Successfully connected to ttn');
 });
 
-mqttTtnClient.subscribe(allDevicesMessagesTopic, { qos: 2 }, (err, granted) => {
-    if (err) return console.log('Not subscribed to ', err);
+mqttTtnClient.subscribe(allDevicesMessagesTopic, { qos: 0 }, (err, granted) => {
+    if (err) return console.log('Not subscribed to ttn ', err);
 
     console.log('subscribed to: ', granted);
 });

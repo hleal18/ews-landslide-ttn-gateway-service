@@ -17,13 +17,13 @@ export default class VariablesDecoder {
     const messageObject = JSON.parse(String(message)) as IDeviceMessage;
 
     // console.log("MessageObject: ", messageObject);
-    const deviceId = messageObject.dev_id;
-    const timestamp = messageObject.metadata.time;
+    const deviceId = messageObject.end_device_ids.device_id;
+    const timestamp = messageObject.received_at;
     const name = "t-beam-sf10-soilMoisture";
     const counter = messageObject.counter;
 
     let byteBufferPayload = this.base64ToArray(
-      messageObject.payload_raw as string
+      messageObject.uplink_message.frm_payload
     );
     const idSensor = Number(byteBufferPayload[0]);
     const type = typesArray[byteBufferPayload[1]] as DefaultVariables;

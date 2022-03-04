@@ -11,8 +11,3 @@ mqttTtnClient.on('message', (topic, payload) => {
     const variable: IVariable<Object> = VariablesDecoder.decodeVariable(payload);
     mqttEwsClient.publish('ews-landslide-test', JSON.stringify(variable), { qos: 2 });
 });
-
-
-console.log("Holi");
-
-

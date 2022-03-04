@@ -1,9 +1,11 @@
 interface IDeviceMessage {
-    dev_id: string,
-    metadata: {
-        time: Date
-    },
-    payload_raw: string,
+    end_device_ids: {
+        device_id: string,
+    }
+    received_at: Date,
+    uplink_message: {
+        frm_payload: string,
+    }
     counter: number,
 };
 
